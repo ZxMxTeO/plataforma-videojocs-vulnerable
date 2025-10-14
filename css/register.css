@@ -1,0 +1,27 @@
+body{
+    background-color: rgb(94, 131, 118);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* letra elegante */
+
+}
+
+#FondoFormulario{
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgb(0, 0, 0);
+    background-color: rgb(122, 167, 151);
+    display: flex;
+    flex-direction: column; /* organiza los elementos verticalmente */
+    width: 400px;           /* ancho fijo del formulario */
+    }
+
+#FormularioR{
+    border-color: aqua;
+    align-items: center;
+    justify-content: center;
+    width: 390;
+}
