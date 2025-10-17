@@ -13,7 +13,8 @@
                 <img src="./img/" alt="">
             </div>
             <div id="info">
-                <p>Hola</p>
+                <ul>Nombre de usuario: PEPE69</ul>
+                <ul>hola</ul>
             </div>
         </div>
     </div>
