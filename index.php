@@ -39,16 +39,22 @@ if (isset($_SESSION['usuari'])) {
 
             if ($email !== '' && $password !== '') {
 
+                // Consulta insegura a propósito (como pediste)
                 $sql = "SELECT * FROM usuaris WHERE email = '$email' AND password_hash = '$password'";
                 $result = $conn->query($sql);
 
                 if ($result && $result->num_rows === 1) {
                     $usuari = $result->fetch_assoc();
+
+                    // Guardar ID y nombre en la sesión (para que perfil.php pueda usarlo)
+                    // Asegúrate de que tu tabla 'usuaris' tiene la columna 'id' (o cámbialo si tiene otro nombre)
+                    $_SESSION['id'] = $usuari['id'];
                     $_SESSION['usuari'] = $usuari['nom_usuari'];
+                    $_SESSION['email'] = $usuari['email']; // opcional
+
                     header("Location: ./backend/plataforma.php"); 
                     exit();
                 } else {
-
                     echo "<p style='color:red;text-align:center;'>Email o contraseña incorrectos.</p>";
                 }
             }
@@ -59,6 +65,3 @@ if (isset($_SESSION['usuari'])) {
     </div>
 </body>
 </html>
-<!--session_start();
-//Si hi ha una sessió reenviar a plataforma.phpsession_start();
-//Si hi ha una sessió reenviar a plataforma.php-->

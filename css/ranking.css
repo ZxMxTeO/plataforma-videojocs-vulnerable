@@ -1,0 +1,99 @@
+/* Fondo general */
+body {
+    margin: 0;
+    background: linear-gradient(to bottom, #d0f0ff, #f0fbff);
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Contenedor centrado */
+#contenedor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* Tarjeta leaderboard */
+#leaderboard {
+    background: #ffffff;
+    padding: 3rem 2rem;
+    border-radius: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    width: 450px;
+    text-align: center;
+}
+
+/* Título */
+#leaderboard h1 {
+    color: #0077aa;
+    margin-bottom: 2rem;
+}
+
+/* Lista de juegos */
+#leaderboard ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#leaderboard ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f0faff;
+    margin: 10px 0;
+    padding: 12px 20px;
+    border-radius: 1rem;
+    box-shadow: inset 0 0 5px rgba(255,255,255,0.6), 0 4px 8px rgba(0,0,0,0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#leaderboard ul li:hover {
+    transform: translateY(-2px);
+    box-shadow: inset 0 0 10px rgba(255,255,255,0.8), 0 6px 12px rgba(0,0,0,0.1);
+}
+
+/* Posición, juego y puntos */
+#leaderboard ul li .pos {
+    font-weight: bold;
+    color: #004f77;
+    width: 40px;
+}
+
+#leaderboard ul li .juego {
+    font-weight: bold;
+    color: #0077aa;
+    flex-grow: 1;
+    text-align: left;
+    margin: 0 10px;
+}
+
+#leaderboard ul li .puntos {
+    font-weight: bold;
+    color: #004f77;
+}
+
+/* Botón volver */
+.boton {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 0.7rem 1.5rem;
+    background-color: #00b0ff;
+    color: white;
+    border: none;
+    border-radius: 1.5rem;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+.boton:hover {
+    background-color: #0090cc;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+}

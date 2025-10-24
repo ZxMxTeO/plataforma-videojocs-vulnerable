@@ -1,86 +1,172 @@
+/* Fondo general estilo Wii */
 body {
     margin: 0;
-    background: #f0f4f8;
+    background: linear-gradient(to bottom, #d0f0ff, #f0fbff);
     font-family: 'Segoe UI', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
+/* Contenedor centrado */
 #contenedor {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+/* Tarjeta de usuario */
 #usuario {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: linear-gradient(to bottom, #f8fdff, #d7f0ff);
-    padding: 2.5rem;
+    background: #ffffff;
+    padding: 3rem 2rem;
     border-radius: 2rem;
-    box-shadow: inset 0 0 20px #e6faff, 0 0 25px rgba(144, 200, 255, 0.4);
-    width: 320px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    width: 360px;
     text-align: center;
     position: relative;
-    overflow: hidden;
+    transition: transform 0.3s ease;
 }
 
+#usuario:hover {
+    transform: translateY(-5px);
+}
+
+/* Fondo radial decorativo */
 #usuario::before {
     content: "";
     position: absolute;
-    top: -20px;
-    left: -20px;
+    top: -30px;
+    left: -30px;
     width: 120%;
     height: 50%;
-    background: repeating-radial-gradient(circle at 14% 30%, white, rgba(0,0,0,0.05) 2px);
+    background: repeating-radial-gradient(circle at 20% 30%, rgba(255,255,255,0.3), rgba(0,0,0,0.05) 2px);
     border-radius: 50%;
     z-index: 0;
 }
 
+#usuario * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Foto de perfil */
 #imagen img {
-    width: 130px;
-    height: 130px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 1rem;
-    border: 3px solid #90c8ff;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
-    position: relative;
-    z-index: 1;
+    border: 4px solid #80d4ff;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
 }
 
+/* Formulario subir foto */
+#imagen form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+#imagen form input[type="file"] {
+    padding: 5px 10px;
+    border-radius: 12px;
+    border: 1px solid #80d4ff;
+    margin-bottom: 10px;
+    cursor: pointer;
+    background-color: #e0f7ff;
+}
+
+#imagen form button {
+    background-color: #00b0ff;
+    color: white;
+    padding: 0.6rem 1.5rem;
+    border: none;
+    border-radius: 1.5rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+#imagen form button:hover {
+    background-color: #0090cc;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+}
+
+/* Mensaje de subida */
+#imagen p {
+    margin-top: 10px;
+    color: #0077aa;
+    font-weight: bold;
+}
+
+/* Información del usuario en estilo Wii */
 #info {
-    position: relative;
-    z-index: 1;
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-#info h2 {
-    margin: 0.5rem 0 0.2rem;
-    font-size: 1.5rem;
-    color: #333;
+#info ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
 }
 
-#info p {
-    margin: 0.2rem 0;
-    color: #555;
+#info ul li {
+    background: #f0faff;
+    margin: 8px 0;
+    padding: 12px 20px;
+    border-radius: 1rem;
+    font-size: 1rem;
+    color: #0077aa;
+    box-shadow: inset 0 0 5px rgba(255,255,255,0.6), 0 4px 8px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
+#info ul li:hover {
+    transform: translateY(-2px);
+    box-shadow: inset 0 0 10px rgba(255,255,255,0.8), 0 6px 12px rgba(0,0,0,0.1);
+}
+
+#info ul li span.label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+#info ul li span.value {
+    font-weight: normal;
+    color: #004f77;
+}
+
+/* Botones estilo Wii */
 .boton {
     display: inline-block;
-    margin-top: 1rem;
-    padding: 0.5rem 1.2rem;
-    background-color: #90c8ff;
+    margin: 10px 5px 0 5px;
+    padding: 0.7rem 1.5rem;
+    background-color: #00b0ff;
     color: white;
     border: none;
-    border-radius: 1rem;
+    border-radius: 1.5rem;
     text-decoration: none;
     font-weight: bold;
-    transition: background-color 0.3s ease;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
 }
 
 .boton:hover {
-    background-color: #6bb3ff;
+    background-color: #0090cc;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
 }
