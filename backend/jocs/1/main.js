@@ -6,7 +6,7 @@ const pantallaAlt = window.innerHeight;
 const fotogrames = 1000 / 60; // Actualització cada 16ms, aprox 60 fps.
 
 // ---------- Variables per la gestió de la partida --------
-const nivell = 1;
+//const nivell = 1;
 const maxPunts = 100;
 const vectorAsteroides = [];
 const vectorEnemics = [];

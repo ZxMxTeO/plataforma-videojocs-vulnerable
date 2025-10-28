@@ -1,3 +1,10 @@
+<?php
+//connexio a la bd
+//$nivell = consulta --> select nivell from progres_usuari on el jocID = 1
+
+$nivell=3;
+$_SESSION['nivell'] =$nivell;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,12 +16,12 @@
     <main>
         <ul class="navigation">
             <li>
-                <a href="./jocs/1/index.html">
+                <a href="./jocs/1/index.php">
                     <img src="../img/Portada-nave.png" alt="">
                 </a>
             </li>
             <li>
-                <a href="./juego2.html">
+                <a href="./jocs/2/index.php">
                 </a>
             </li>
             <li>
