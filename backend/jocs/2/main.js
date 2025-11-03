@@ -1,77 +1,80 @@
-const gameArea = document.getElementById("game-area");
-const scoreDisplay = document.getElementById("score");
-const levelDisplay = document.getElementById("level");
-const startBtn = document.getElementById("start-btn");
+let score = 0
+let level = 1
+let vidas = 3
+let aparecion = 1000
+let vidaObjeto = 3000
+let jugando = false
+let intervalo
 
-let jugador = new Jugador();
-let objetos = [];
-let intervalo = null;
-
-function crearObjeto() {
-    const x = Math.random() * (gameArea.clientWidth - 50);
-    const y = Math.random() * (gameArea.clientHeight - 50);
-    const obj = new Objeto({x, y});
-    gameArea.appendChild(obj.elementHTML);
-    objetos.push(obj);
-
-    // Tiempo de vida del objeto
-    const tiempoVida = 3000; // 3 segundos
-    const timeout = setTimeout(() => {
-        if (objetos.includes(obj)) {
-            // No atrapado -> resta 1 punto
-            jugador.puntos = Math.max(0, jugador.puntos - 1);
-            actualizarInfo();
-            gameArea.removeChild(obj.elementHTML);
-            objetos = objetos.filter(o => o !== obj);
-
-            if (jugador.puntos === 0) {
-                gameOver();
-            }
-        }
-    }, tiempoVida);
-
-    // Click en el objeto
-    obj.elementHTML.addEventListener("click", () => {
-        clearTimeout(timeout);
-        jugador.sumarPuntos(1);
-        actualizarInfo();
-        gameArea.removeChild(obj.elementHTML);
-        objetos = objetos.filter(o => o !== obj);
-    });
+function loadProgress() {
+    let l = localStorage.getItem("level")
+    let s = localStorage.getItem("score")
+    if (l) level = parseInt(l)
+    if (s) score = parseInt(s)
+    document.getElementById("level").textContent = level
+    document.getElementById("score").textContent = score
 }
 
-function actualizarInfo() {
-    scoreDisplay.textContent = jugador.puntos;
-    levelDisplay.textContent = jugador.nivel;
+function saveProgress() {
+    localStorage.setItem("level", level)
+    localStorage.setItem("score", score)
+}
+
+function resetGame() {
+    level = 1
+    score = 0
+    vidas = 3
+    saveProgress()
+    document.getElementById("level").textContent = level
+    document.getElementById("score").textContent = score
+    clearInterval(intervalo)
+    document.getElementById("game-area").innerHTML = ""
+    jugando = false
 }
 
 function startGame() {
-    // Reset
-    jugador = new Jugador();
-    actualizarInfo();
-    objetos.forEach(o => gameArea.removeChild(o.elementHTML));
-    objetos = [];
-
-    if (intervalo) clearInterval(intervalo);
-
-    intervalo = setInterval(() => {
-        // Crear objetos según nivel
-        const cantidad = jugador.nivel; // cada nivel genera más objetos
-        for (let i = 0; i < cantidad; i++) {
-            crearObjeto();
-        }
-    }, 1000);
+    if (jugando) return
+    jugando = true
+    clearInterval(intervalo)
+    intervalo = setInterval(crearObjeto, aparecion - (level * 80))
 }
 
-function gameOver() {
-    clearInterval(intervalo);
-    alert("¡Game Over! Has llegado a 0 puntos.");
-    objetos.forEach(o => {
-        if (o.elementHTML.parentNode) {
-            gameArea.removeChild(o.elementHTML);
+function crearObjeto() {
+    let area = document.getElementById("game-area")
+    let o = document.createElement("div")
+    o.className = "objeto"
+    o.style.left = Math.random() * (area.clientWidth - 50) + "px"
+    o.style.top = Math.random() * (area.clientHeight - 50) + "px"
+
+    o.onclick = () => {
+        o.remove()
+        score++
+        document.getElementById("score").textContent = score
+        if (score % 5 === 0) {
+            level++
+            document.getElementById("level").textContent = level
         }
-    });
-    objetos = [];
+        saveProgress()
+    }
+
+    area.appendChild(o)
+
+    setTimeout(() => {
+        if (area.contains(o)) {
+            o.remove()
+            vidas--
+            if (vidas <= 0) {
+                resetGame()
+            }
+        }
+    }, vidaObjeto)
 }
 
-startBtn.addEventListener("click", startGame);
+document.getElementById("start-btn").onclick = startGame
+
+let btn = document.createElement("button")
+btn.textContent = "Reiniciar"
+btn.onclick = resetGame
+document.getElementById("game-container").appendChild(btn)
+
+loadProgress()

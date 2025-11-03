@@ -22,11 +22,19 @@ body {
 }
 
 .jugador {
-    background-color: lightblue;
+    background-image: url("img/nave.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
 }
 
 .enemic {
-    background-color: lightcoral;
+    background-image: url("img/marciano.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    width: 400px;
+    height: 400px;
 }
 
 .asteroide {

@@ -1,10 +1,17 @@
 <?php
 //connexio a la bd
 //$nivell = consulta --> select nivell from progres_usuari on el jocID = 1
+session_start();
+require_once  './../Other/connexio.php';
 
-$nivell=3;
-$_SESSION['nivell'] =$nivell;
+// Comprobamos sesión
+if (!isset($_SESSION['id']) && !isset($_SESSION['usuari'])) {
+    header("Location: ../index.php");
+    exit();
+}
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
