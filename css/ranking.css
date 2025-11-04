@@ -97,3 +97,73 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 5px 10px rgba(0,0,0,0.15);
 }
+
+/* Fila del ranking */
+.li-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* Imagen del jugador */
+.avatar {
+    width: 36px; /* más pequeña que antes */
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+}
+
+/* Texto y puntuaciones */
+.pos {
+    font-weight: bold;
+    width: 40px;
+    display: inline-block;
+}
+
+.juego {
+    min-width: 180px;
+    display: inline-block;
+    font-weight: 600;
+}
+
+.puntos {
+    color: #333;
+    font-weight: bold;
+    margin-left: auto;
+}
+
+.meta {
+    color: #666;
+    font-size: 0.85em;
+    margin-left: 10px;
+}
+
+/* --- RESPONSIVO --- */
+@media (max-width: 600px) {
+    #leaderboard {
+        width: 90%;
+        padding: 2rem 1rem;
+    }
+
+    .avatar {
+        width: 28px;
+        height: 28px;
+    }
+
+    .li-row {
+        gap: 6px;
+        padding: 5px 0;
+    }
+
+    .juego {
+        font-size: 0.9em;
+        min-width: 120px;
+    }
+
+    .puntos {
+        font-size: 0.9em;
+    }
+}

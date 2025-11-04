@@ -1,12 +1,3 @@
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #e0f0ff, #ffffff);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
 #game-container {
     background: #fff;
     padding: 30px;
@@ -14,7 +5,10 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     text-align: center;
     width: 600px;
+    margin-top: 20px; /* 👈 separa un poco del topbar */
 }
+
+/* Área de juego */
 #game-area {
     width: 100%;
     height: 400px;
@@ -23,6 +17,8 @@ body {
     position: relative;
     border-radius: 15px;
 }
+
+/* Botones y objetos */
 .objeto {
     position: absolute;
     width: 50px;
@@ -33,6 +29,7 @@ body {
     transition: transform 0.15s;
 }
 .objeto:hover { transform: scale(1.12); }
+
 button {
     padding: 10px 25px;
     border: none;
@@ -43,4 +40,111 @@ button {
     cursor: pointer;
 }
 button:hover { background-color: #42a5f5; }
-#info p { font-size: 18px; margin: 5px 0; }
+
+#info p {
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+/* === Barra superior === */
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: #0077aa;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.topbar h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    letter-spacing: 0.5px;
+}
+
+.topbar-nav {
+    display: flex;
+    gap: 15px;
+}
+
+.topbar-nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    background: rgba(255,255,255,0.15);
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: background 0.3s;
+}
+
+.topbar-nav a:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+/* === Ajustes del cuerpo para que no tape el juego === */
+body {
+    margin: 0;
+    padding-top: 80px; /* deja espacio debajo de la barra */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #e0f0ff, #ffffff);
+}
+
+/* Contenedor del juego */
+#game-container {
+    background: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    text-align: center;
+    width: 600px;
+    margin: 0 auto;
+}
+
+/* Área de juego */
+#game-area {
+    width: 100%;
+    height: 400px;
+    background: #222;
+    margin: 20px 0;
+    position: relative;
+    border-radius: 15px;
+}
+
+/* Botones y objetos igual que antes */
+.objeto {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: #ff5252;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.15s;
+}
+.objeto:hover { transform: scale(1.12); }
+
+button {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 15px;
+    background-color: #64b5f6;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+button:hover { background-color: #42a5f5; }
+
+#info p {
+    font-size: 18px;
+    margin: 5px 0;
+}

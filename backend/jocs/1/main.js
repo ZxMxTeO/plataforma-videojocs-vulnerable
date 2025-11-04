@@ -11,11 +11,13 @@ const maxPunts = 100;
 const vectorAsteroides = [];
 const vectorEnemics = [];
 const maxAsteroides = 100;
-const maxEnemics = 12;
+const maxEnemics = window.config.enemics;
+const puntuacio_maxima = window.config.puntuacio_maxima
+
 
 // ---- Objecte Jugador ----
 // Constructor: nom, vides, velocitat, posicio, ample, alt
-const jugador = new Jugador("Pepito", 3, 15, {x: 100, y: 300}, 150, 100);
+const jugador = new Jugador("Pepito", window.config.vides, window.config.velocitat, {x: 100, y: 300}, 150, 100);
 pantalla.append(jugador.elementHTML);
 
 // ---- Vector d'objectes Enemic ----
@@ -87,6 +89,31 @@ function comprovarCollisions() {
         });
         // Preparar el següent nivell
         alert("Nivell superat! :)");
+        
+        // 🟩 Sustituimos aquí el bloque PHP por la forma correcta usando fetch:
+        // Llamamos a un PHP externo que hace la actualización de la BD
+        fetch("./../../index.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            usuari_id: window.usuariId,   // este valor lo defines en index.php
+            nivell_actual: nivell + 1
+          })
+        })
+        .then(res => res.json())
+        .then(data => {
+          console.log("Resposta del servidor:", data);
+          if (data.ok) {
+            console.log("Nivell actualitzat correctament!");
+            window.location.reload(); // recarregar la pàgina (F5)
+          } else {
+            alert("Error en actualitzar el nivell!");
+          }
+        })
+        .catch(err => console.error("Error actualitzant nivell:", err));
+        // 🟩 Fin del bloque añadido
       }
     }
   });
