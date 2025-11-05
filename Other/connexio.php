@@ -1,7 +1,7 @@
 <?php
 //db_mysqli.php
 // Dades de connexió
-$host = "172.18.33.243";
+$host = "localhost";
 $user = "plataforma_user";
 $password = "123456789a";
 $database = "plataforma_videojocs";

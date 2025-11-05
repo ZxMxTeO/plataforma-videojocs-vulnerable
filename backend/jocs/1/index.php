@@ -66,7 +66,7 @@ echo "<h1>Nivell: $nivell</h1>";
         const usuariId = <?php echo isset($_SESSION['id']) ? (int)$_SESSION['id'] : 0; ?>;
 
         //Poseu correctament la ruta de la API al fet el fetch.
-        fetch(`http://172.18.33.243/backend/api.php/jocs/${jocId}/nivells/${nivell}`)
+        fetch(`http://192.168.1.144/backend/api.php/jocs/${jocId}/nivells/${nivell}`)
           .then(res => res.json())
           .then(data => {
             console.log("Resposta API:", data);

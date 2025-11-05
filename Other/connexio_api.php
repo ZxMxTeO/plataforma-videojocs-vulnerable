@@ -1,6 +1,6 @@
 <?php
 // Other/connexio_api.php
-$servidor = '172.18.33.243';
+$servidor = '192.168.1.144';
 $bd = 'plataforma_videojocs';
 $usuari = 'plataforma_user';
 $contrasenya = '123456789a';
