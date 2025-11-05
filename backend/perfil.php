@@ -14,8 +14,8 @@ if (isset($_POST['logout'])) {
     exit();
 }
 
-$id = isset($_SESSION['id']) ? (int)$_SESSION['id'] : null;
-$nom_usuari_sess = isset($_SESSION['usuari']) ? $_SESSION['usuari'] : null;
+$id = $_SESSION['id'] ?? null;
+$nom_usuari_sess = $_SESSION['usuari'] ?? null;
 
 $uploadDir = "../uploads/";
 $mensajeFoto = "";
@@ -26,39 +26,54 @@ if (isset($_POST['subir_foto']) && isset($_FILES['foto'])) {
 
     if (move_uploaded_file($_FILES['foto']['tmp_name'], $rutaDestino)) {
         $urlEnBD = "uploads/" . $nombreArchivo;
-        if ($id !== null) {
-            $sqlUpdate = "UPDATE usuaris SET imatge_url = '$urlEnBD' WHERE id = $id";
-        } else {
-            $sqlUpdate = "UPDATE usuaris SET imatge_url = '$urlEnBD' WHERE nom_usuari = '$nom_usuari_sess'";
-        }
+        $sqlUpdate = $id
+            ? "UPDATE usuaris SET imatge_url = '$urlEnBD' WHERE id = $id"
+            : "UPDATE usuaris SET imatge_url = '$urlEnBD' WHERE nom_usuari = '$nom_usuari_sess'";
         $conn->query($sqlUpdate);
-        $mensajeFoto = "Imagen subida correctamente.";
+        $mensajeFoto = "✅ Imagen subida correctamente.";
     } else {
-        $mensajeFoto = "Error al subir la imagen.";
+        $mensajeFoto = "❌ Error al subir la imagen.";
     }
 }
 
-if ($id !== null) {
-    $sql = "SELECT nom_usuari, email, nom_complet, data_registre, imatge_url FROM usuaris WHERE id = $id";
-} else {
-    $sql = "SELECT nom_usuari, email, nom_complet, data_registre, imatge_url FROM usuaris WHERE nom_usuari = '$nom_usuari_sess'";
+$mensajePass = "";
+if (isset($_POST['cambiar_pass'])) {
+    $passActual = $_POST['pass_actual'] ?? '';
+    $passNueva = $_POST['pass_nueva'] ?? '';
+    $passConfirm = $_POST['pass_confirm'] ?? '';
+
+    if ($passActual === '' || $passNueva === '' || $passConfirm === '') {
+        $mensajePass = "⚠️ Rellena todos los campos.";
+    } elseif ($passNueva !== $passConfirm) {
+        $mensajePass = "❌ Las contraseñas no coinciden.";
+    } else {
+        $sqlPass = $id
+            ? "SELECT password_hash FROM usuaris WHERE id = $id"
+            : "SELECT password_hash FROM usuaris WHERE nom_usuari = '$nom_usuari_sess'";
+        $res = $conn->query($sqlPass);
+        $fila = $res->fetch_assoc();
+
+        if ($fila && $fila['password_hash'] === $passActual) {
+            $sqlUpdate = $id
+                ? "UPDATE usuaris SET password_hash = '$passNueva' WHERE id = $id"
+                : "UPDATE usuaris SET password_hash = '$passNueva' WHERE nom_usuari = '$nom_usuari_sess'";
+            $conn->query($sqlUpdate);
+            $mensajePass = "✅ Contraseña actualizada correctamente.";
+        } else {
+            $mensajePass = "❌ Contraseña actual incorrecta.";
+        }
+    }
 }
+
+$sql = $id
+    ? "SELECT nom_usuari, email, nom_complet, data_registre, imatge_url FROM usuaris WHERE id = $id"
+    : "SELECT nom_usuari, email, nom_complet, data_registre, imatge_url FROM usuaris WHERE nom_usuari = '$nom_usuari_sess'";
 
 $result = $conn->query($sql);
-if ($result && $result->num_rows === 1) {
-    $usuari = $result->fetch_assoc();
-} else {
-    session_unset();
-    session_destroy();
-    header("Location: ../index.php");
-    exit();
-}
-$conn->close();
+$usuari = $result->fetch_assoc() ?? [];
 
-$fotoMostrar = "../img/foto-perfil.png";
-if (!empty($usuari['imatge_url'])) {
-    $fotoMostrar = "../" . $usuari['imatge_url'];
-}
+$fotoMostrar = !empty($usuari['imatge_url']) ? "../" . $usuari['imatge_url'] : "../img/foto-perfil.png";
+$conn->close();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -68,6 +83,63 @@ if (!empty($usuari['imatge_url'])) {
     <title>Perfil de usuario</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/perfil.css">
+    <style>
+        /* Estilo del desplegable de contraseña */
+        .change-pass-container {
+            margin-top: 1rem;
+        }
+        .toggle-btn {
+            background-color: #1e90ff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .toggle-btn:hover {
+            background-color: #1673d1;
+        }
+        .password-form {
+            display: none;
+            background-color: #f4f8ff;
+            border: 1px solid #ccd9ff;
+            border-radius: 10px;
+            margin-top: 10px;
+            padding: 15px;
+            width: 90%;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .password-form input {
+            width: 100%;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #aaa;
+        }
+        .password-form button {
+            background-color: #1e90ff;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: 0.3s;
+        }
+        .password-form button:hover {
+            background-color: #0b6bd6;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .mensaje-pass {
+            margin-top: 8px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <div id="contenedor">
@@ -78,7 +150,7 @@ if (!empty($usuari['imatge_url'])) {
                     <input type="file" name="foto" accept="image/*" required>
                     <button type="submit" name="subir_foto">Subir foto</button>
                 </form>
-                <?php if ($mensajeFoto !== ""): ?>
+                <?php if ($mensajeFoto): ?>
                     <p><?= $mensajeFoto ?></p>
                 <?php endif; ?>
             </div>
@@ -89,12 +161,39 @@ if (!empty($usuari['imatge_url'])) {
                 <p><strong>Email:</strong> <?= $usuari['email'] ?></p>
                 <p><strong>Fecha de registro:</strong> <?= $usuari['data_registre'] ?></p>
 
-                <form method="post">
-                    <button type="submit" name="logout">Cerrar sesión</button>
+                <!-- 🔹 Botón desplegable para cambiar contraseña -->
+<!-- 🔹 Contenedor de acciones alineadas -->
+                <div class="acciones-usuario">
+                    <button type="button" class="toggle-btn" onclick="togglePasswordForm()">🔒 Cambiar contraseña</button>
+
+                    <form method="post" style="display:inline;">
+                        <button type="submit" name="logout" class="logout-btn">🚪 Cerrar sesión</button>
+                    </form>
+                </div>
+
+                <!-- 🔹 Formulario desplegable -->
+                <form method="post" class="password-form" id="passwordForm">
+                    <input type="password" name="pass_actual" placeholder="Contraseña actual" required>
+                    <input type="password" name="pass_nueva" placeholder="Nueva contraseña" required>
+                    <input type="password" name="pass_confirm" placeholder="Confirmar nueva contraseña" required>
+                    <button type="submit" name="cambiar_pass">Actualizar</button>
                 </form>
-                <a href="plataforma.php" class="boton">Volver a la plataforma</a>
+
+                <?php if ($mensajePass): ?>
+                    <p class="mensaje-pass"><?= $mensajePass ?></p>
+                <?php endif; ?>
+
+                <a href="plataforma.php" class="boton volver">⬅️ Volver a la plataforma</a>
+
             </div>
         </div>
     </div>
+
+    <script>
+        function togglePasswordForm() {
+            const form = document.getElementById("passwordForm");
+            form.style.display = form.style.display === "block" ? "none" : "block";
+        }
+    </script>
 </body>
 </html>

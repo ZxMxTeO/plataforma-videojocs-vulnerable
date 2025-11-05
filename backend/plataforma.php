@@ -47,14 +47,8 @@ $result = $conn->query($consulta1);
                     <img src="../img/atrapa-objetos.png" alt="">
                 </a>
             </li>
-            <li>
-                <a href="./juego3.html">
-                </a>
-            </li>
-            <li>
-                <a href="./juego4.html">
-                </a>
-            </li>
+            <li></li>
+            <li></li>
             <li></li>
             <li></li>
             <li></li>

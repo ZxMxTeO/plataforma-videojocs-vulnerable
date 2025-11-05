@@ -46,46 +46,107 @@ button:hover { background-color: #42a5f5; }
     margin: 5px 0;
 }
 
-/* === Barra superior === */
+/* === Wii-inspired Navbar (Versión moderna) === */
+
 .topbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 60px;
-    background: #0077aa;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(180deg, #e2f1ff 0%, #cfe5ff 60%, #bcd8ff 100%);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  border-bottom: 3px solid #9cc6ff;
+  padding: 0.6rem 1.5rem;
+  border-radius: 0 0 20px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: background 0.3s ease;
 }
 
+/* === Barra superior estilo Wii mejorada === */
+
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+
+  display: flex;
+  justify-content: space-between; /* 🔹 Título a la izq, botones a la der */
+  align-items: center;
+
+  background: linear-gradient(to bottom, #d6ecff, #a9d3ff);
+  border-bottom: 2px solid #6da9e4;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+
+  padding: 0 2rem;
+  z-index: 1000;
+  border-radius: 0; /* 🔹 Barra recta */
+}
+
+/* Espacio para el contenido del juego */
+body {
+  margin: 0;
+  padding-top: 60px;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #eef6fb;
+}
+
+/* === Título del juego === */
 .topbar h2 {
-    margin: 0;
-    font-size: 1.2rem;
-    letter-spacing: 0.5px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #003366;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.9);
+  margin: 0;
 }
 
+/* === Contenedor de los enlaces === */
 .topbar-nav {
-    display: flex;
-    gap: 15px;
+    padding-right: 60px;
+  display: flex;
+  gap: 1rem;
 }
 
+/* === Botones === */
 .topbar-nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    background: rgba(255,255,255,0.15);
-    padding: 8px 14px;
-    border-radius: 10px;
-    transition: background 0.3s;
+  text-decoration: none;
+  color: #003e73;
+  font-weight: 600;
+  padding: 0.45rem 1.1rem;
+  background: linear-gradient(to bottom, #f8fbff, #d2e7ff);
+  border: 1px solid #94c2f0;
+  border-radius: 20px; /* 🔹 Botones redondos */
+  transition: all 0.25s ease;
 }
 
+/* Hover */
 .topbar-nav a:hover {
-    background: rgba(255,255,255,0.3);
+  background: linear-gradient(to bottom, #ffffff, #b8dcff);
+  border-color: #6da9e4;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #002c5e;
+}
+
+/* Activo */
+.topbar-nav a.active {
+  background: #ffffff;
+  border-color: #6da9e4;
+  color: #002c5e;
+  font-weight: 700;
+}
+
+
+#game-container {
+    margin-top: 100px; /* espacio para la barra superior */
+}
+
+/* === Fondo general (recomendado para acompañar) === */
+body {
+    background: linear-gradient(135deg, #eaf4ff, #d9ecff);
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
 }
 
 /* === Ajustes del cuerpo para que no tape el juego === */

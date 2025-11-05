@@ -46,16 +46,16 @@ body {
 #infoPartida {
   position: absolute;
   top: 0;
-  right: 0;
+  left: 0;
   padding: 1rem;
   font-size: 1.25rem;
   color: white;
-  background-color: rgba(0, 0, 0, 0.2);
-  border-radius: 5px;
-  width: 200px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  width: 220px;
   z-index: 2;
 }
 
 #infoPartida > p {
-  margin: 0.25rem;
+  margin: 0.5rem 0;
 }

@@ -1,5 +1,6 @@
 <?php
 session_start();
+//var_dump($_SESSION);
 require_once  './../../../Other/connexio_api.php';
 
 // Si repem una petició POST la gestionem aquí per actualitzar el nivell
@@ -34,12 +35,17 @@ if (!isset($_SESSION['id']) && !isset($_SESSION['usuari'])) {
     exit();
 }
 
-if (!isset($_SESSION['nivell_joc1'])) {
+// Si viene un nivell por la URL (?nivell=2), lo usamos
+if (isset($_GET['nivell'])) {
+    $nivell = (int)$_GET['nivell'];
+    $_SESSION['nivell_joc1'] = $nivell;
+} elseif (!isset($_SESSION['nivell_joc1'])) {
     $_SESSION['nivell_joc1'] = 1;
     $nivell = 1;
 } else {
-  $nivell = $_SESSION['nivell_joc1'];
+    $nivell = $_SESSION['nivell_joc1'];
 }
+
 
 echo "<h1>Nivell: $nivell</h1>";
 ?>
@@ -63,7 +69,10 @@ echo "<h1>Nivell: $nivell</h1>";
         const jocId = 1; // Ex: segons la ruta del joc
         let nivell = <?php echo $nivell; ?>;
         // exposem usuari id per al JS (assegura't que $_SESSION['id'] existeix)
-        const usuariId = <?php echo isset($_SESSION['id']) ? (int)$_SESSION['id'] : 0; ?>;
+        window.usuariId = <?php echo isset($_SESSION['id']) ? (int)$_SESSION['id'] : 0; ?>;
+        // Nombre del usuario (desde PHP)
+        window.nomUsuari = "<?php echo $_SESSION['usuari']; ?>";
+
 
         //Poseu correctament la ruta de la API al fet el fetch.
         fetch(`http://192.168.1.144/backend/api.php/jocs/${jocId}/nivells/${nivell}`)
@@ -77,6 +86,11 @@ echo "<h1>Nivell: $nivell</h1>";
             const puntuacio_maxima = data.puntuacio_maxima
             console.log(data.enemics);
             window.config = data;
+
+            // Mostrar información del nivel en pantalla
+            const infoPartida = document.getElementById("infoPartida");
+
+
             
             const script = document.createElement('script');
             script.src = './classes.js';

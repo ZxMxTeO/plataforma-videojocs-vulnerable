@@ -1,27 +1,136 @@
-body{
-    background-color: rgb(94, 131, 118);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* letra elegante */
-
+/* === Fondo general === */
+body {
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  background: linear-gradient(135deg, #b3d9ff, #e6f2ff, #ffffff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-size: 300% 300%;
+  animation: bgMove 12s ease infinite;
 }
 
-#FondoFormulario{
-    padding: 40px 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgb(0, 0, 0);
-    background-color: rgb(122, 167, 151);
-    display: flex;
-    flex-direction: column; /* organiza los elementos verticalmente */
-    width: 400px;           /* ancho fijo del formulario */
-    }
+/* Animación del fondo */
+@keyframes bgMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
-#FormularioR{
-    border-color: aqua;
-    align-items: center;
-    justify-content: center;
-    width: 390;
+/* === Contenedor del formulario === */
+#FondoFormulario {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 3rem;
+  width: 380px;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+#FondoFormulario:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* === Título === */
+#FondoFormulario h1 {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: #0056b3;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* === Contenedor de inputs con etiquetas flotantes === */
+.form-group {
+  position: relative;
+  margin-bottom: 1.8rem;
+}
+
+.form-group input {
+  width: 90%;
+  padding: 1rem 1rem;
+  border: 2px solid #c9e0ff;
+  border-radius: 12px;
+  background: #ffffff;
+  font-size: 1rem;
+  color: #003366;
+  transition: all 0.3s ease;
+}
+
+.form-group input::placeholder {
+  color: transparent;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.2);
+}
+
+/* Etiquetas flotantes */
+.form-group label {
+  position: absolute;
+  left: 16px;
+  top: 14px;
+  color: #666;
+  pointer-events: none;
+  transition: 0.2s ease all;
+  font-size: 0.95rem;
+  background: transparent;
+}
+
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label {
+  top: -9px;
+  left: 12px;
+  font-size: 0.75rem;
+  color: #007bff;
+  background: #ffffff;
+  padding: 0 6px;
+}
+
+/* === Botón === */
+#FondoFormulario button {
+  width: 100%;
+  background: linear-gradient(145deg, #007bff, #3399ff);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: 600;
+  padding: 0.9rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+#FondoFormulario button:hover {
+  background: linear-gradient(145deg, #0094ff, #33adff);
+  box-shadow: 0 6px 14px rgba(0, 123, 255, 0.35);
+  transform: translateY(-2px);
+}
+
+/* === Enlaces secundarios === */
+#FondoFormulario a {
+  color: #007bff;
+  font-weight: 500;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+#FondoFormulario a:hover {
+  text-decoration: underline;
+}
+
+/* === Responsivo === */
+@media (max-width: 480px) {
+  #FondoFormulario {
+    width: 90%;
+    padding: 2rem;
+  }
 }

@@ -21,8 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if ($resultado) {
             // redirigir a la página de inicio de sesión
-            header("index.php"); // <-- cambia aquí la ruta
-            exit(); // siempre poner exit después de header
+            header("Location: index.php");
+            exit();
         } else {
             echo "Error al crear l'usuari: " . $conn->error;
         }
@@ -47,20 +47,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <div id="FondoFormulario">
        <h1>Registro Nuevo Usuario</h1>
         <form action="" method="POST">
-            <label for="nom_usuari"></label>
-            <input type="text" id="nom_usuari" name="nom_usuari" placeholder="Nom Usuari" required><br><br>
+  <div class="form-group">
+    <input type="text" id="nom_usuari" name="nom_usuari" placeholder=" " required>
+    <label for="nom_usuari">Nombre de usuario</label>
+  </div>
 
-            <label for="nom_complet"></label>
-            <input type="text" id="nom_complet" name="nom_complet" placeholder="Nom Complet"><br><br>
+  <div class="form-group">
+    <input type="text" id="nom_complet" name="nom_complet" placeholder=" ">
+    <label for="nom_complet">Nombre completo</label>
+  </div>
 
-            <label for="email"></label>
-            <input type="email" id="email" name="email" placeholder="Email" required><br><br>
+  <div class="form-group">
+    <input type="email" id="email" name="email" placeholder=" " required>
+    <label for="email">Correo electrónico</label>
+  </div>
 
-            <label for="password"></label>
-            <input type="password" id="password" name="password" placeholder="Contraseña" required><br><br>
+  <div class="form-group">
+    <input type="password" id="password" name="password" placeholder=" " required>
+    <label for="password">Contraseña</label>
+  </div>
 
-            <button type="submit">Crear usuario</button>
-        </form>
+  <button type="submit">Crear usuario</button>
+</form>
+
     </div>
 </body>
 </html>
