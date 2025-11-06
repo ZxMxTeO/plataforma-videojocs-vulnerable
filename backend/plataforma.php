@@ -10,20 +10,20 @@ if (!isset($_SESSION['id']) && !isset($_SESSION['usuari'])) {
     exit();
 }
 
-$id = $_SESSION['id'];
-$consulta1 = "SELECT nivell_actual FROM progres_usuari WHERE usuari_id = $id AND joc_id=1";
+#$id = $_SESSION['id'];
+#$consulta1 = "SELECT nivell_actual FROM progres_usuari WHERE usuari_id = $id AND joc_id=1";
 
-$result = $conn->query($consulta1);
-  if ($result->num_rows > 0) {
-    $progres = $result->fetch_assoc();
-    echo "<p>Nivell Actual Level 1: " . $progres['nivell_actual'] . "</p>";
-    $nivell_joc1 = $progres['nivell_actual'];
-  } else {
-    echo "<p>No s'ha trobat cap progrés per l'usuari actual i el nivell 1.</p>";
-    $nivell_joc1 = 1;
-  }
-  $_SESSION['nivell_joc1'] = $nivell_joc1;
-  $conn->close();
+#$result = $conn->query($consulta1);
+#  if ($result->num_rows > 0) {
+#    $progres = $result->fetch_assoc();
+#    echo "<p>Nivell Actual Level 1: " . $progres['nivell_actual'] . "</p>";
+#    $nivell_joc1 = $progres['nivell_actual'];
+#  } else {
+#    echo "<p>No s'ha trobat cap progrés per l'usuari actual i el nivell 1.</p>";
+#    $nivell_joc1 = 1;
+#  }
+#  $_SESSION['nivell_joc1'] = $nivell_joc1;
+#  $conn->close();
 
 ?>
 
