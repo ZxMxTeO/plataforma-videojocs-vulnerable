@@ -7,12 +7,12 @@ const fotogrames = 1000 / 60; // Actualització cada 16ms, aprox 60 fps.
 
 // ---------- Variables per la gestió de la partida --------
 //const nivell = 1;
-const maxPunts = 100;
+const maxPunts = (window.config && (window.config.puntuacion_final ?? window.config.puntuacio_maxima)) || 100;
 const vectorAsteroides = [];
 const vectorEnemics = [];
 const maxAsteroides = 100;
 const maxEnemics = window.config.enemics;
-const puntuacio_maxima = window.config.puntuacio_maxima
+
 
 
 // ---- Objecte Jugador ----
@@ -80,7 +80,7 @@ function comprovarCollisions() {
         jugador.y + jugador.alt >= enemic.y) {
       // Col·lisió detectada
       enemic.x = pantallaAmple + enemic.ample;
-      jugador.punts = jugador.punts + (nivell*10);
+      jugador.punts += Math.floor(10 * (1 + (nivell - 1) * 0.1));
       jugador.derribats++;
       elementPunts.textContent = `Punts: ${jugador.punts}`;
       elementKills.textContent = `Kills: ${jugador.derribats}`;

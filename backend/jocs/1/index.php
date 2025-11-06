@@ -1,6 +1,5 @@
 <?php
 session_start();
-//var_dump($_SESSION);
 require_once  './../../../Other/connexio_api.php';
 
 // Si repem una petició POST la gestionem aquí per actualitzar el nivell
@@ -35,19 +34,19 @@ if (!isset($_SESSION['id']) && !isset($_SESSION['usuari'])) {
     exit();
 }
 
-// Si viene un nivell por la URL (?nivell=2), lo usamos
+/* ✅ Aquí viene la corrección importante */
 if (isset($_GET['nivell'])) {
+    // Si hay ?nivell= en la URL, usamos ese valor y lo guardamos
     $nivell = (int)$_GET['nivell'];
     $_SESSION['nivell_joc1'] = $nivell;
-} elseif (!isset($_SESSION['nivell_joc1'])) {
-    $_SESSION['nivell_joc1'] = 1;
-    $nivell = 1;
+} elseif (isset($_SESSION['nivell_joc1'])) {
+    // Si ya hay guardado en sesión
+    $nivell = (int)$_SESSION['nivell_joc1'];
 } else {
-    $nivell = $_SESSION['nivell_joc1'];
+    // Si no hay nada, empezamos desde el nivel 1
+    $nivell = 1;
+    $_SESSION['nivell_joc1'] = 1;
 }
-
-
-echo "<h1>Nivell: $nivell</h1>";
 ?>
 
 <!DOCTYPE html>
@@ -62,52 +61,89 @@ echo "<h1>Nivell: $nivell</h1>";
     <link rel="stylesheet" href="./index.css" />
   </head>
   <body>
+    <!-- 🔹 Barra superior -->
+    <div class="topbar">
+      <h2>🎮 Marcianitos</h2>
+      <div class="topbar-nav">
+          <a href="./../../plataforma.php">🏠 Plataforma</a>
+          <a href="./../../ranking.php">🏆 Ranking</a>
+          <a href="./../../perfil.php">👤 Perfil</a>
+          <!-- 🔁 Nuevo botón para reiniciar -->
+          <a href="#" id="reiniciar">🔁 Reiniciar</a>
+      </div>
+    </div>
+
     <div id="pantalla"></div>
     <div id="infoPartida"></div>
-      <script>
-        //Simulem que la ruta del joc és http://IP_DE_LA_VM/jocs/1/index.php (vol dir que joc_id=1)
-        const jocId = 1; // Ex: segons la ruta del joc
-        let nivell = <?php echo $nivell; ?>;
-        // exposem usuari id per al JS (assegura't que $_SESSION['id'] existeix)
-        window.usuariId = <?php echo isset($_SESSION['id']) ? (int)$_SESSION['id'] : 0; ?>;
-        // Nombre del usuario (desde PHP)
-        window.nomUsuari = "<?php echo $_SESSION['usuari']; ?>";
 
+    <script>
+      const jocId = 1;
+      let nivell = <?php echo $nivell; ?>;
+      const usuariId = <?php echo isset($_SESSION['id']) ? (int)$_SESSION['id'] : 0; ?>;
 
-        //Poseu correctament la ruta de la API al fet el fetch.
-        fetch(`http://192.168.1.144/backend/api.php/jocs/${jocId}/nivells/${nivell}`)
-          .then(res => res.json())
-          .then(data => {
-            console.log("Resposta API:", data);
-            
-            const enemics = data.enemics;
-            const velocitat = data.velocitat;
-            const vides = data.vides
-            const puntuacio_maxima = data.puntuacio_maxima
-            console.log(data.enemics);
-            window.config = data;
+      // 🔁 Script del botón de reinicio
+      document.addEventListener("DOMContentLoaded", () => {
+        const btnReiniciar = document.getElementById("reiniciar");
+        if (btnReiniciar) {
+          btnReiniciar.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (!confirm("Vols reiniciar el joc al nivell 1?")) return;
 
-            // Mostrar información del nivel en pantalla
-            const infoPartida = document.getElementById("infoPartida");
+            fetch(window.location.pathname, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                usuari_id: usuariId,
+                nivell_actual: 1
+              })
+            })
+            .then(res => res.json())
+            .then(data => {
+              if (data.ok) {
+                alert("Joc reiniciat!");
+                window.location.href = "./index.php?nivell=1";
+              } else {
+                alert("Error al reiniciar nivell");
+              }
+            })
+            .catch(err => {
+              console.error(err);
+              alert("Error al reiniciar nivell");
+            });
+          });
+        }
+      });
 
+      // 🔹 Carga de la API del nivel actual
+      fetch(`http://192.168.1.144/backend/api.php/jocs/${jocId}/nivells/${nivell}`)
+        .then(res => res.json())
+        .then(data => {
+          console.log("Resposta API:", data);
+          window.config = data;
 
-            
-            const script = document.createElement('script');
-            script.src = './classes.js';
-            script.onload = () => {
-              console.log('classes.js cargado después del fetch');
-            };
-            document.body.appendChild(script);
+          window.usuariId = <?php echo (int)$_SESSION['id']; ?>;
+          window.nomUsuari = "<?php echo $_SESSION['usuari']; ?>";
+          window.nivell = <?php echo $nivell; ?>;
 
-            const script2 = document.createElement('script');
-            script2.src = './main.js';
-            script2.onload = () => {
-              console.log('main.js cargado después del fetch');
-            };
-            document.body.appendChild(script2);
+(function loadGameScripts() {
+    const scriptCls = document.createElement('script');
+    scriptCls.src = './classes.js';
+    scriptCls.onload = () => {
+      console.log('classes.js cargado — ahora cargo main.js');
 
-          })
-          .catch(err => console.error("Error de la API:", err));
+      // ahora inyectamos main.js (se ejecutará ya con Jugador definido)
+      const scriptMain = document.createElement('script');
+      scriptMain.src = './main.js';
+      scriptMain.onload = () => console.log('main.js cargado');
+      document.body.appendChild(scriptMain);
+    };
+    scriptCls.onerror = () => console.error('Error cargando classes.js');
+    document.body.appendChild(scriptCls);
+  })();
+        })
+        .catch(err => console.error("Error de la API:", err));
     </script>
     
   </body>

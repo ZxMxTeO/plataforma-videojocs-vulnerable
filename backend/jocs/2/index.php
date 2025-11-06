@@ -19,14 +19,14 @@ $_SESSION['usuari'] = $nombreUsuario;
 <body>
 
 <!-- 🔹 Barra superior -->
-<div class="topbar">
-    <h2>🎮 Atrapa Objetos</h2>
-    <div class="topbar-nav">
-        <a href="/plataformaweb/home.php">🏠 Plataforma</a>
-        <a href="/plataformaweb/ranking.php">🏆 Ranking</a>
-        <a href="/plataformaweb/perfil.php?usuari=<?= urlencode($nombreUsuario) ?>">👤 Perfil</a>
+    <div class="topbar">
+      <h2>🎮 Atrapa Objetos</h2>
+      <div class="topbar-nav">
+          <a href="./../../plataforma.php">🏠 Plataforma</a>
+          <a href="./../../ranking.php">🏆 Ranking</a>
+          <a href="./../../perfil.php">👤 Perfil</a>
+      </div>
     </div>
-</div>
 
 <div id="game-container">
     <h1>Atrapa Objetos</h1>

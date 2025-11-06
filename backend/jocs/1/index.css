@@ -1,3 +1,6 @@
+/* === Fuente retro elegante === */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -44,18 +47,87 @@ body {
 }
 
 #infoPartida {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: fixed;
+  top: 80px; /* 👈 justo debajo de la topbar (que mide 70px) */
+  right: 20px; /* 👈 pegado al lado derecho */
   padding: 1rem;
-  font-size: 1.25rem;
+  font-size: 1rem;
   color: white;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.45);
+  border: 2px solid #1e90ff;
   border-radius: 10px;
   width: 220px;
-  z-index: 2;
+  z-index: 900; /* un poco por debajo de la topbar, pero sobre el juego */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  font-family: 'Press Start 2P', monospace;
+  box-shadow: 0 0 10px rgba(30,144,255,0.4);
+  backdrop-filter: blur(4px);
 }
 
 #infoPartida > p {
   margin: 0.5rem 0;
+  line-height: 1.4;
+}
+
+/* === TOPBAR AZUL RETRO CLARO === */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background: linear-gradient(180deg, #1e90ff 0%, #0078d7 90%);
+  border-bottom: 3px solid #66b3ff;
+  box-shadow: 0 4px 10px rgba(0, 102, 204, 0.3);
+  padding: 0 2rem;
+  z-index: 1000;
+
+  font-family: 'Press Start 2P', monospace;
+  letter-spacing: 1px;
+}
+
+/* === TÍTULO DEL JUEGO === */
+.topbar h2 {
+  color: #ffffff;
+  text-shadow: 0 0 4px #a8ddff, 0 0 8px #ffffff;
+  font-size: 0.9rem;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* === NAVBAR DE BOTONES === */
+.topbar-nav {
+  display: flex;
+  gap: 1rem;
+}
+
+.topbar-nav a {
+  text-decoration: none;
+  background: linear-gradient(180deg, #e6f2ff 0%, #b3dbff 100%);
+  border: 2px solid #1e90ff;
+  color: #003366;
+  padding: 0.4rem 0.8rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(30, 144, 255, 0.3);
+  transition: all 0.25s ease;
+  font-size: 0.6rem;
+  font-family: 'Press Start 2P', monospace;
+}
+
+.topbar-nav a:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #a3d2ff 100%);
+  color: #002244;
+  box-shadow: 0 0 10px rgba(30, 144, 255, 0.5);
+}
+
+.topbar-nav a.active {
+  background: #ffffff;
+  border-color: #1e90ff;
+  color: #004080;
+  box-shadow: 0 0 12px rgba(30, 144, 255, 0.5);
 }
