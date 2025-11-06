@@ -9,22 +9,24 @@ Incluye dos minijuegos, con sistema de usuarios, puntuaciones, ranking y un **sc
 
 ---
 
-## 📂 Estructura general del proyecto
+## 🗂️ Estructura del proyecto
 
-├── Other/  
-│   ├── connexio.php              # Conexión principal a la base de datos  
-│   ├── connexio_api.php          # Conexión API (para endpoints del juego)  
-│   └── backup_plataformaweb.sql  # Dump opcional de la base de datos  
+🎮 Backend/ → Archivos que gestionan el backend
 
-├── backend/  
-│   ├── index.php                 # Interfaz principal del juego “Atrapa Objectes”  
-│   ├── classes.js, main.js       # Lógica del juego (JS)  
-│   ├── index.css                 # Estilos del juego  
-│   └── ...                       # Otros recursos del backend  
+   🕹️ jocs/ → Carpeta donde se encuentran todos los juegos
 
-├── deploy.sh                     # Script de instalación automática  
-├── README.md                     
+🎨 css/ → Hojas de estilo de las páginas
+
+🖼️ img/ → Imágenes que se utilizan en la plataforma
+
+⚙️ Other/ → Archivos de conexión a la base de datos, API, info.php…
+
+🧰 Scripts/ → Scripts para desplegar la plataforma (monta el servidor LAMP y la DB)
+
+👤 uploads/ → Imágenes de los avatares de los usuarios
+       
 ---
+
 
 ## ⚙️ Requisitos previos
 

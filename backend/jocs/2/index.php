@@ -12,7 +12,7 @@ $_SESSION['usuari'] = $nombreUsuario;
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Atrapa Objetos</title>
+    <title>🎮 Atrapa Objetos</title>
     <link rel="stylesheet" href="index.css">
     <link rel="stylesheet" href="navbar.css">
 </head>

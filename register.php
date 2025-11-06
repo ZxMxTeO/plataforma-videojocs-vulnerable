@@ -41,6 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta name="description" content="Registro usuarios." />
     <meta name="author" content="Matthew Luna y Marc Pimentel" />
     <meta name="copyright" content="Matthew Luna y Marc Pimentel" />
+    <link rel="icon" type="image/png" href="../img/wii-logo.png">
     <link rel="stylesheet" href="./css/register.css">
 </head>
 <body>

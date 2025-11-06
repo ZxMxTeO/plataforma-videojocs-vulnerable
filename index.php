@@ -14,12 +14,13 @@ if (isset($_SESSION['usuari'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="icon" type="image/png" href="../img/wii-logo.png">
     <link rel="stylesheet" href="./css/index.css">
 </head>
 <body>
     <div id="container">
         <div id="formulario">
-            <h2>Login de usuario</h2>
+            <h2>Login</h2>
             <form method="post">
                 <label for="email">Correo electronico</label>
                 <input type="email" id="email" name="email" required>

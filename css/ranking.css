@@ -1,169 +1,148 @@
-/* Fondo general */
+/* === FUENTE RETRO MODERNA (tipo consola Wii) === */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 body {
-    margin: 0;
-    background: linear-gradient(to bottom, #d0f0ff, #f0fbff);
-    font-family: 'Segoe UI', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+  font-family: 'Press Start 2P', cursive;
+  background: linear-gradient(180deg, #c8e9ff 0%, #f7fbff 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  margin: 0;
+  padding: 2rem 0;
+  color: #003366;
 }
 
-/* Contenedor centrado */
-#contenedor {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+/* === TÍTULO PRINCIPAL === */
+h1 {
+  text-align: center;
+  font-size: 1rem;
+  color: #003366;
+  text-shadow: 0 2px 4px #b3e0ff, 0 0 6px #ffffff;
+  margin-bottom: 2rem;
+  background: linear-gradient(180deg, #e8f7ff 0%, #d0ecff 100%);
+  border-radius: 15px;
+  padding: 1rem 2rem;
+  border: 3px solid #80caff;
+  box-shadow: 0 4px 10px rgba(0, 102, 204, 0.3);
 }
 
-/* Tarjeta leaderboard */
-#leaderboard {
-    background: #ffffff;
-    padding: 3rem 2rem;
-    border-radius: 2rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    width: 450px;
-    text-align: center;
+/* === CONTENEDOR GENERAL DE LOS DOS RANKINGS === */
+.ranking-container {
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  width: 90%;
 }
 
-/* Título */
-#leaderboard h1 {
-    color: #0077aa;
-    margin-bottom: 2rem;
+/* === CAJAS DE LOS RANKINGS === */
+.ranking-box {
+  flex: 1 1 350px;
+  max-width: 380px;
+  background: linear-gradient(180deg, #ffffff 0%, #e6f6ff 100%);
+  border: 4px solid #a4dbff;
+  border-radius: 35px;
+  box-shadow: inset 0 4px 10px rgba(255,255,255,0.9), 0 8px 18px rgba(0, 136, 255, 0.3);
+  padding: 1.5rem 1.8rem;
+  text-align: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  backdrop-filter: blur(4px);
 }
 
-/* Lista de juegos */
-#leaderboard ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.ranking-box:hover {
+  transform: translateY(-6px);
+  box-shadow: inset 0 4px 10px rgba(255,255,255,0.9), 0 10px 22px rgba(0, 136, 255, 0.5);
 }
 
-#leaderboard ul li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #f0faff;
-    margin: 10px 0;
-    padding: 12px 20px;
-    border-radius: 1rem;
-    box-shadow: inset 0 0 5px rgba(255,255,255,0.6), 0 4px 8px rgba(0,0,0,0.05);
-    transition: transform 0.2s, box-shadow 0.2s;
+/* === TÍTULO DEL JUEGO === */
+.ranking-box h2 {
+  font-size: 0.8rem;
+  color: #0078d7;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.9);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  border-bottom: 2px solid #a4dbff;
+  padding-bottom: 0.5rem;
 }
 
-#leaderboard ul li:hover {
-    transform: translateY(-2px);
-    box-shadow: inset 0 0 10px rgba(255,255,255,0.8), 0 6px 12px rgba(0,0,0,0.1);
+/* === LISTA DE PUESTOS === */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-/* Posición, juego y puntos */
-#leaderboard ul li .pos {
-    font-weight: bold;
-    color: #004f77;
-    width: 40px;
+li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(90deg, rgba(240,250,255,0.9), rgba(220,240,255,0.9));
+  border: 1px solid #b3e0ff;
+  border-radius: 12px;
+  margin-bottom: 0.6rem;
+  padding: 0.5rem 0.8rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
-#leaderboard ul li .juego {
-    font-weight: bold;
-    color: #0077aa;
-    flex-grow: 1;
-    text-align: left;
-    margin: 0 10px;
+li:hover {
+  background: linear-gradient(90deg, #e0f4ff, #c6e7ff);
+  transform: scale(1.02);
 }
 
-#leaderboard ul li .puntos {
-    font-weight: bold;
-    color: #004f77;
-}
-
-/* Botón volver */
-.boton {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 0.7rem 1.5rem;
-    background-color: #00b0ff;
-    color: white;
-    border: none;
-    border-radius: 1.5rem;
-    text-decoration: none;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
-}
-
-.boton:hover {
-    background-color: #0090cc;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 10px rgba(0,0,0,0.15);
-}
-
-/* Fila del ranking */
-.li-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 0;
-    border-bottom: 1px solid #eee;
-}
-
-/* Imagen del jugador */
-.avatar {
-    width: 36px; /* más pequeña que antes */
-    height: 36px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #ddd;
-}
-
-/* Texto y puntuaciones */
+/* === POSICIÓN Y DATOS === */
 .pos {
-    font-weight: bold;
-    width: 40px;
-    display: inline-block;
+  font-weight: bold;
+  color: #004080;
+  font-size: 0.7rem;
+  width: 35px;
+  text-align: center;
 }
 
-.juego {
-    min-width: 180px;
-    display: inline-block;
-    font-weight: 600;
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #1e90ff;
+  object-fit: cover;
+  margin: 0 10px;
+  background: white;
+}
+
+.jugador {
+  flex: 1;
+  text-align: left;
+  color: #003366;
+  font-size: 0.55rem;
 }
 
 .puntos {
-    color: #333;
-    font-weight: bold;
-    margin-left: auto;
+  color: #0078d7;
+  font-weight: bold;
+  font-size: 0.55rem;
 }
 
-.meta {
-    color: #666;
-    font-size: 0.85em;
-    margin-left: 10px;
+/* === BOTÓN DE VOLVER === */
+.boton {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 0.8rem 1.5rem;
+  background: linear-gradient(180deg, #1e90ff 0%, #0078d7 100%);
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 20px;
+  border: 3px solid #a4dbff;
+  box-shadow: 0 4px 10px rgba(0, 102, 204, 0.4);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  font-size: 0.6rem;
+  text-transform: uppercase;
 }
 
-/* --- RESPONSIVO --- */
-@media (max-width: 600px) {
-    #leaderboard {
-        width: 90%;
-        padding: 2rem 1rem;
-    }
-
-    .avatar {
-        width: 28px;
-        height: 28px;
-    }
-
-    .li-row {
-        gap: 6px;
-        padding: 5px 0;
-    }
-
-    .juego {
-        font-size: 0.9em;
-        min-width: 120px;
-    }
-
-    .puntos {
-        font-size: 0.9em;
-    }
+.boton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 102, 204, 0.6);
 }

@@ -1,7 +1,9 @@
+/* === Fuente retro elegante === */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 body {
     margin: 0;
     background: #f8f8f8;
-    font-family: sans-serif;
 }
 * {
     box-sizing: border-box;
@@ -143,6 +145,8 @@ main ul.navigation li:before {
 .text {
     position: relative;
     z-index: 1;
+    font-family: 'Press Start 2P', monospace;
+    font-size: xx-small;
 }
 .content.full {
     background: black;
@@ -279,6 +283,8 @@ footer {
     text-align: center;
     left: 50%;
     margin-left: -125px;
+    font-family: 'Press Start 2P', monospace;
+
 }
 .button-cont {
     position: absolute;

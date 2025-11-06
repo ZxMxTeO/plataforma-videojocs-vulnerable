@@ -3,13 +3,18 @@ const pantalla = document.querySelector("#pantalla");
 const infoPartida = document.querySelector("#infoPartida");
 const pantallaAmple = window.innerWidth;
 const pantallaAlt = window.innerHeight;
-const fotogrames = 1000 / 60;
+const fotogrames = 1000 / 60; // 60 FPS aproximadament
 
 // ---------- Variables per la gestió de la partida --------
 const maxPunts = (window.config && window.config.puntuacio_final) || 100;
 const vectorAsteroides = [];
 const vectorEnemics = [];
 const maxAsteroides = 100;
+
+// 🔹 Control del joc
+let jocAcabat = false;
+let intervalJoc = null;
+let partidaGuardada = false;
 
 // ---- Objecte Jugador ----
 const jugador = new Jugador(
@@ -27,7 +32,9 @@ for (let i = 0; i < (window.config.enemics || 3); i++) {
   let posX = pantallaAmple + 50;
   let posY = Math.floor(Math.random() * (pantallaAlt - 50));
   let velocitat = Math.floor(Math.random() * 5) + 1;
-  vectorEnemics.push(new Enemic(jugador, velocitat, { x: posX, y: posY }, 50, 50));
+  vectorEnemics.push(
+    new Enemic(jugador, velocitat, { x: posX, y: posY }, 50, 50)
+  );
   pantalla.append(vectorEnemics[i].elementHTML);
 }
 
@@ -50,10 +57,10 @@ const elementPunts = document.createElement("p");
 const elementKills = document.createElement("p");
 
 elementNom.textContent = `Jugador: ${jugador.nom}`;
-elementNivell.textContent = `Nivell: ${nivell}`;
-elementVides.textContent = `Vides: ${window.config.vides ?? "?"}`;
-elementEnemics.textContent = `Enemics: ${window.config.enemics ?? "?"}`;
-elementPunts.textContent = `Punts: ${jugador.punts}`;
+elementNivell.textContent = `Nivel: ${nivell}`;
+elementVides.textContent = `Vidas: ${window.config.vides ?? "?"}`;
+elementEnemics.textContent = `Enemigos: ${window.config.enemics ?? "?"}`;
+elementPunts.textContent = `Puntos: ${jugador.punts}`;
 elementKills.textContent = `Kills: ${jugador.derribats}`;
 
 infoPartida.append(
@@ -67,6 +74,7 @@ infoPartida.append(
 
 // ----- Esdeveniments de teclat -----
 window.addEventListener("keydown", (event) => {
+  if (jocAcabat) return; // ❌ No fer res si la partida ha acabat
   switch (event.code) {
     case "ArrowUp":
       jugador.y -= jugador.velocitat;
@@ -77,8 +85,33 @@ window.addEventListener("keydown", (event) => {
   }
 });
 
+// ----- Funció per guardar la partida -----
+function guardarPartida(finalitzat = false) {
+  if (partidaGuardada) return; // Evita múltiples inserts
+  partidaGuardada = true;
+
+  const dades = {
+    usuari_id: window.usuariId,
+    joc_id: 1,
+    nivell_jugat: nivell,
+    puntuacio_obtinguda: jugador.punts,
+    vidas: jugador.vides,
+  };
+
+  fetch("./index.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ guardar_partida: true, ...dades }),
+  })
+    .then((r) => r.json())
+    .then((res) => console.log("💾 Partida guardada:", res))
+    .catch((err) => console.error("Error guardando partida:", err));
+}
+
 // ----- Comprovació de Col·lisions -----
 function comprovarCollisions() {
+  if (jocAcabat) return;
+
   vectorEnemics.forEach((enemic) => {
     if (
       jugador.x <= enemic.x + enemic.ample &&
@@ -89,37 +122,40 @@ function comprovarCollisions() {
       enemic.x = pantallaAmple + enemic.ample;
       jugador.punts += Math.floor(10 * (1 + (nivell - 1) * 0.1));
       jugador.derribats++;
-      elementPunts.textContent = `Punts: ${jugador.punts}`;
+      elementPunts.textContent = `Puntos: ${jugador.punts}`;
       elementKills.textContent = `Kills: ${jugador.derribats}`;
 
-      // 🟩 Quan s'arriba a la puntuació màxima
       if (jugador.punts >= maxPunts) {
+        jocAcabat = true;
         jugador.velocitat = 0;
         vectorEnemics.forEach((e) => (e.velocitat = 0));
-        alert("Nivell superat! 🎉");
+
+        guardarPartida(true);
+
+        alert("¡Nivel superado! 🎉");
 
         const seguentNivell = nivell + 1;
         console.log("🔍 Comprovant si existeix nivell", seguentNivell);
 
-        // ✅ Comprovar si existeix el següent nivell
-        fetch(`http://172.20.0.134/backend/api.php/jocs/1/nivells/${seguentNivell}`)
+        fetch(
+          `http://192.168.1.144/backend/api.php/jocs/1/nivells/${seguentNivell}`
+        )
           .then((res) => (res.ok ? res.json() : null))
           .then((data) => {
-            console.log("Resposta comprovació següent nivell:", data);
-
-            // 🔸 Si la resposta és un array, agafem el primer element
             const nivellData = Array.isArray(data) ? data[0] : data;
 
-            // 🔹 Comprovem de forma robusta
             if (!nivellData || !nivellData.puntuacio_final) {
-              alert("🎮 Has completat tots els nivells disponibles! Enhorabona! 🏆");
-              setTimeout(() => {
-                window.location.href = "./../../plataforma.php";
-              }, 4000);
+              alert(
+                "🎮 ¡Felicidades! Has completado todos los niveles 🏆"
+              );
+              setTimeout(
+                () => (window.location.href = "./../../plataforma.php"),
+                4000
+              );
               return;
             }
 
-            // ✅ Si el nivell existeix, actualitzem i passem
+            // ✅ Si existeix el següent nivell
             fetch("./index.php", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -136,15 +172,15 @@ function comprovarCollisions() {
                 } else {
                   alert("Error en actualitzar el nivell!");
                 }
-              })
-              .catch((err) => console.error("Error actualitzant nivell:", err));
+              });
           })
           .catch((err) => {
-            console.error("Error comprovant el següent nivell:", err);
-            alert("🎮 Has completat tots els nivells disponibles! Enhorabona! 🏆");
-            setTimeout(() => {
-              window.location.href = "./../../plataforma.php";
-            }, 4000);
+            console.error("Error comprobando el siguiente nivel:", err);
+            alert("🎮 ¡Felicidades! Has completado todos los niveles 🏆");
+            setTimeout(
+              () => (window.location.href = "./../../plataforma.php"),
+              4000
+            );
           });
       }
     }
@@ -152,13 +188,28 @@ function comprovarCollisions() {
 }
 
 // ----- Bucle d'animació -----
-setInterval(() => {
+intervalJoc = setInterval(() => {
+  if (jocAcabat) return;
+
   comprovarCollisions();
 
   elementVides.textContent = `Vides: ${jugador.vides}`;
-  if (jugador.vides < 0) {
+
+  // 🔴 Si el jugador es queda sense vides
+  if (jugador.vides <= 0 && !jocAcabat) {
+    jocAcabat = true;
     jugador.velocitat = 0;
-    setTimeout(() => location.reload(), 5000);
+    vectorEnemics.forEach((e) => (e.velocitat = 0));
+
+    guardarPartida(true);
+
+    alert("💀 ¡Has perdido! Buena suerte a la proxima");
+    clearInterval(intervalJoc);
+
+    setTimeout(() => {
+      window.location.href = `./index.php?nivell=${nivell}`;
+    }, 3000);
+    return;
   }
 
   jugador.dibuixar();

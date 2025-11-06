@@ -1,3 +1,6 @@
+/* === Fuente retro elegante === */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 body {
     font-family: 'Quicksand', sans-serif;
     background: linear-gradient(135deg, #e0f0ff, #ffffff);
@@ -84,6 +87,8 @@ button,
     box-shadow: 0 4px 10px rgba(30, 144, 255, 0.3);
     text-decoration: none;
     display: inline-block;
+    font-family: 'Press Start 2P', monospace;
+    font-size: xx-small;
 }
 
 button:hover,
@@ -161,4 +166,60 @@ p {
     .password-form {
         width: 100%;
     }
+}
+
+/* Estilo del desplegable de contraseña */
+.change-pass-container {
+    margin-top: 1rem;
+}
+.toggle-btn {
+    background-color: #1e90ff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.toggle-btn:hover {
+    background-color: #1673d1;
+}
+.password-form {
+    display: none;
+    background-color: #f4f8ff;
+    border: 1px solid #ccd9ff;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 15px;
+    width: 90%;
+    animation: fadeIn 0.4s ease-in-out;
+}
+.password-form input {
+    width: 100%;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #aaa;
+}
+.password-form button {
+    background-color: #1e90ff;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: 0.3s;
+}
+.password-form button:hover {
+    background-color: #0b6bd6;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.mensaje-pass {
+    margin-top: 8px;
+    font-weight: bold;
 }

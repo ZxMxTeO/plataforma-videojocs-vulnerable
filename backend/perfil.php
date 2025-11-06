@@ -82,64 +82,8 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil de usuario</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../img/wii-logo.png">
     <link rel="stylesheet" href="../css/perfil.css">
-    <style>
-        /* Estilo del desplegable de contraseña */
-        .change-pass-container {
-            margin-top: 1rem;
-        }
-        .toggle-btn {
-            background-color: #1e90ff;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        .toggle-btn:hover {
-            background-color: #1673d1;
-        }
-        .password-form {
-            display: none;
-            background-color: #f4f8ff;
-            border: 1px solid #ccd9ff;
-            border-radius: 10px;
-            margin-top: 10px;
-            padding: 15px;
-            width: 90%;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-        .password-form input {
-            width: 100%;
-            margin: 5px 0;
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #aaa;
-        }
-        .password-form button {
-            background-color: #1e90ff;
-            color: white;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 8px;
-            transition: 0.3s;
-        }
-        .password-form button:hover {
-            background-color: #0b6bd6;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .mensaje-pass {
-            margin-top: 8px;
-            font-weight: bold;
-        }
-    </style>
 </head>
 <body>
     <div id="contenedor">

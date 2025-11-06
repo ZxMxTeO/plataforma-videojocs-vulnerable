@@ -31,8 +31,10 @@ if (!isset($_SESSION['id']) && !isset($_SESSION['usuari'])) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Menú Wii</title>
+    <title>Juegitos</title>
     <link rel="stylesheet" href="../css/plataforma.css">
+    <link rel="icon" type="image/png" href="../img/wii-logo.png">
+
 </head>
 <body>
     <main>

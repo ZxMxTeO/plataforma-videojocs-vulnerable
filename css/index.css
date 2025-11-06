@@ -1,7 +1,9 @@
+/* === Fuente retro elegante === */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
 
 body {
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Press Start 2P', monospace;
   background: linear-gradient(to bottom, #d0e4ff, #ffffff);
   display: flex;
   justify-content: center;

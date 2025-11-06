@@ -1,29 +1,32 @@
 <?php
-require_once './../Other/connexio.php'; // ajusta ruta si hace falta
+require_once './../Other/connexio.php'; // conexión a BD
 
 header("Access-Control-Allow-Origin: *");
 header('Content-Type: text/html; charset=utf-8');
 
-$joc_id = isset($_GET['joc_id']) ? $_GET['joc_id'] : 2;
+// IDs de los juegos (ajusta según tus datos reales)
+$jocs = [
+  1 => "Marcianitos",
+  2 => "Atrapa Objetos"
+];
 
-// Consulta totalmente insegura
-$sql = "SELECT u.nom_usuari AS jugador, u.imatge_url AS imagen, 
-               p.puntuacio_obtinguda AS puntos, p.nivell_jugat AS nivel, p.data_partida
-        FROM partides p
-        JOIN usuaris u ON p.usuari_id = u.id
-        ORDER BY p.puntuacio_obtinguda DESC
-        LIMIT 5;";
+$rankings = [];
 
-$top = [];
-$db_error = null;
-$debug_sql = $sql;
+foreach ($jocs as $id => $nomJoc) {
+    $sql = "SELECT u.nom_usuari AS jugador, u.imatge_url AS imagen, 
+                   p.puntuacio_obtinguda AS puntos, p.nivell_jugat AS nivel, p.data_partida
+            FROM partides p
+            JOIN usuaris u ON p.usuari_id = u.id
+            WHERE p.joc_id = $id
+            ORDER BY p.puntuacio_obtinguda DESC
+            LIMIT 5;";
 
-if (isset($conn) && method_exists($conn, 'query')) {
     $res = $conn->query($sql);
-    if ($res === false) {
-        $db_error = $conn->error;
-    } else {
-        while ($row = $res->fetch_assoc()) $top[] = $row;
+    $rankings[$id] = [];
+    if ($res && $res->num_rows > 0) {
+        while ($row = $res->fetch_assoc()) {
+            $rankings[$id][] = $row;
+        }
     }
 }
 ?>
@@ -32,44 +35,44 @@ if (isset($conn) && method_exists($conn, 'query')) {
 <head>
   <meta charset="utf-8" />
   <title>Ranking</title>
+  <link rel="icon" type="image/png" href="../img/wii-logo.png">
   <link rel="stylesheet" href="../css/ranking.css">
 </head>
 <body>
-  <div id="contenedor">
-    <div id="leaderboard">
-      <h1>Ranking</h1>
-      <ul style="list-style:none; padding:0; margin:0;">
-<?php
-if (empty($top)) {
-    echo "<li>No hay puntuaciones todavía.</li>";
-} else {
-    foreach ($top as $i => $row) {
-        $pos = $i + 1;
-        $jugador = $row['jugador'];
-        $avatar  = $row['imagen'];
-        $puntos  = $row['puntos'];
-        $nivel   = $row['nivel'];
-        $fecha   = $row['data_partida'];
+  <h1>🏆 Ranking</h1>
 
-        // Si la ruta no empieza por http ni por "/", añadimos ./../
-        if (!preg_match('/^(https?:|\/)/', $avatar)) {
-            $avatar = "./../" . ltrim($avatar, "./");
-        }
-
-        echo "<li class='li-row'>";
-        echo "<span class='pos'>{$pos}º</span>";
-        echo "<img class='avatar' src='{$avatar}' alt='avatar {$jugador}' />";
-        echo "<span class='juego'>{$jugador}</span>";
-        echo "<span class='meta'>(nivel {$nivel})</span>";
-        echo "<span class='puntos'>{$puntos} pts</span>";
-        echo "</li>";
-    }
-}
-?>
-      </ul>
-      <a href='plataforma.php' class='boton'>Volver a la plataforma</a>
+  <div class="ranking-container">
+    <?php foreach ($jocs as $id => $nomJoc): ?>
+      <div class="ranking-box">
+        <h2><?= htmlspecialchars($nomJoc) ?></h2>
+        <ul>
+          <?php if (empty($rankings[$id])): ?>
+            <li>No hay puntuaciones todavía.</li>
+          <?php else: ?>
+            <?php foreach ($rankings[$id] as $i => $row): 
+              $pos = $i + 1;
+              $jugador = htmlspecialchars($row['jugador']);
+              $avatar  = htmlspecialchars($row['imagen']);
+              $puntos  = htmlspecialchars($row['puntos']);
+              $nivel   = htmlspecialchars($row['nivel']);
+              $fecha   = htmlspecialchars($row['data_partida']);
+              if (!preg_match('/^(https?:|\/)/', $avatar)) {
+                  $avatar = "./../" . ltrim($avatar, "./");
+              }
+            ?>
+              <li>
+                <span class="pos"><?= $pos ?>º</span>
+                <img class="avatar" src="<?= $avatar ?>" alt="avatar <?= $jugador ?>">
+                <span class="jugador"><?= $jugador ?> <small>(Niv. <?= $nivel ?>)</small></span>
+                <span class="puntos"><?= $puntos ?> pts</span>
+              </li>
+            <?php endforeach; ?>
+          <?php endif; ?>
+        </ul>
       </div>
-    </div>
+    <?php endforeach; ?>
   </div>
+
+  <a href="plataforma.php" class="boton">⬅ Volver a la plataforma</a>
 </body>
 </html>
